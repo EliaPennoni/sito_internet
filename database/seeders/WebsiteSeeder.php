@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Website;
+use Faker\Factory as Faker;
+use Illuminate\Support\Str;
 
 class WebsiteSeeder extends Seeder
 {
@@ -12,6 +14,17 @@ class WebsiteSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $faker = Faker::create();
+
+        for ($i = 0; $i < 10; $i++) {
+            Website::create([
+                'title' => $faker->sentence(3), // Titolo casuale
+                'description' => $faker->paragraph(), // Descrizione casuale
+                'imageUrl' => $faker->imageUrl(640, 480, 'nature', true), // URL immagine fittizio
+                'location' => $faker->city(), // Città casuale
+                'taken_at' => $faker->date(), // Data casuale
+                'category' => $faker->word(), // Categoria casuale
+            ]);
+        }
     }
 }

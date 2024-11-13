@@ -12,7 +12,8 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-        //
+        $photos = Website::all();
+        return view('websites.index', compact('photos'));
     }
 
     /**
@@ -20,7 +21,7 @@ class WebsiteController extends Controller
      */
     public function create()
     {
-        //
+        return view('websites.create');
     }
 
     /**
@@ -28,7 +29,17 @@ class WebsiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image_url' => 'required|url',
+            'location' => 'nullable|string|max:255',
+            'taken_at' => 'nullable|date',
+            'category' => 'nullable|string|max:100',
+        ]);
+
+        Website::create($validatedData);
+        return redirect()->route('websites.index')->with('success', 'Nuova foto aggiunta con successo!');
     }
 
     /**
@@ -36,7 +47,7 @@ class WebsiteController extends Controller
      */
     public function show(Website $website)
     {
-        //
+        return view('websites.show', compact('website'));
     }
 
     /**
@@ -44,7 +55,7 @@ class WebsiteController extends Controller
      */
     public function edit(Website $website)
     {
-        //
+        return view('websites.edit', compact('website'));
     }
 
     /**
@@ -52,7 +63,21 @@ class WebsiteController extends Controller
      */
     public function update(Request $request, Website $website)
     {
-        //
+
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image_url' => 'required|url',
+            'location' => 'nullable|string|max:255',
+            'taken_at' => 'nullable|date',
+            'category' => 'nullable|string|max:100',
+        ]);
+
+
+        $website->update($validatedData);
+
+
+        return redirect()->route('websites.index')->with('success', 'Foto aggiornata con successo!');
     }
 
     /**
@@ -60,6 +85,10 @@ class WebsiteController extends Controller
      */
     public function destroy(Website $website)
     {
-        //
+
+        $website->delete();
+
+
+        return redirect()->route('websites.index')->with('success', 'Foto eliminata con successo!');
     }
 }
