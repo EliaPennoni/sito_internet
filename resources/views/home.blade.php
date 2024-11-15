@@ -7,11 +7,22 @@ Homepage
 @endsection --}}
 
 @section('main-content')
-<h1>
-    Homepage
-</h1>
+    <main class="container mt-4">
+        <!-- Form di Login -->
 
-<div class="gatto"></div>
+        @guest
+            <h2>Benvenuto! Accedi o registrati per usufruire delle funzionalità di amministrazione.</h2>
+            <a href="{{ route('login') }}" class="btn btn-primary">Sign In</a>
+            <a href="{{ route('register') }}" class="btn btn-secondary">Sign Up</a>
+        @else
+            <h2>Benvenuto, {{ Auth::user()->name }}!</h2>
+            <a href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+        @endguest
+    </main>
 
-<img src="{{ Vite::asset('resources/img/gatto.jpg') }}" class="img-fluid" alt="">
+
 @endsection
