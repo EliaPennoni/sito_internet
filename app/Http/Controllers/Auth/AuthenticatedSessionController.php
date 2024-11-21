@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\Website;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -17,7 +18,14 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): View
     {
-        return view('auth.login');
+        // Assicurati che il record esista prima di accedere all'immagine
+        $website = Website::latest()->first();
+
+        // Se c'è un'immagine, passala alla vista, altrimenti usa un'immagine predefinita
+        $image_url = $website ? asset('storage/' . $website->image_url) : asset('storage/images/default-image.jpg');
+
+        return view('auth.login', compact('image_url'));
+
     }
 
     /**
@@ -45,4 +53,5 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
 }

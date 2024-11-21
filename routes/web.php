@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WebsiteController;
+use App\Models\Website;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    // Prendi l'ultima immagine dal database
+    $website = Website::latest()->first();
+    $image_url = $website ? asset('storage/' . $website->image_url) : asset('storage/images/default-image.jpg');
+
+    // Passa l'immagine alla vista
+    return view('home', ['image_url' => $image_url]);
 });
 
 Route::get('/dashboard', function () {
@@ -27,5 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::resource('websites', WebsiteController::class);
 
 require __DIR__ . '/auth.php';

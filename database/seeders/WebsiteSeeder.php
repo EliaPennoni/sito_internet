@@ -20,7 +20,7 @@ class WebsiteSeeder extends Seeder
             Website::create([
                 'title' => $faker->sentence(3), // Titolo casuale
                 'description' => $faker->paragraph(), // Descrizione casuale
-                'imageUrl' => $faker->imageUrl(640, 480, 'nature', true), // URL immagine fittizio
+                'image_url' => $faker->imageUrl(640, 480, 'nature', true), // URL immagine fittizio
                 'location' => $faker->city(), // Città casuale
                 'taken_at' => $faker->date(), // Data casuale
                 'category' => $faker->word(), // Categoria casuale

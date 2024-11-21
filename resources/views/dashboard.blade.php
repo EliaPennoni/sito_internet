@@ -63,7 +63,9 @@
     <header>
         <h2>Dashboard</h2>
     </header>
-
+    <div class="url">
+        <a href="{{ route('websites.index') }}">Progetti</a>
+    </div>
     <div class="container">
         <div class="card">
             <div class="card-header">

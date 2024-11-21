@@ -7,6 +7,8 @@ Homepage
 @endsection --}}
 
 @section('main-content')
+
+    <img src="{{ $image_url }}" alt="Image" class="login-image">
     <main class="container mt-4">
         <!-- Form di Login -->
 

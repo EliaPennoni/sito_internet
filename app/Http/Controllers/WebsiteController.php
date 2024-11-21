@@ -12,8 +12,9 @@ class WebsiteController extends Controller
      */
     public function index()
     {
-        $photos = Website::all();
-        return view('websites.index', compact('photos'));
+        $websites = Website::all();
+        // dd($websites);
+        return view('websites.index', compact('websites'));
     }
 
     /**
@@ -32,11 +33,16 @@ class WebsiteController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image_url' => 'required|url',
+            'image_url' => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:51200',
             'location' => 'nullable|string|max:255',
             'taken_at' => 'nullable|date',
             'category' => 'nullable|string|max:100',
         ]);
+        if ($request->hasFile('image_url')) {
+            $imagePath = $request->file('image_url')->store('images', 'public');
+        }
+
+        $validatedData['image_url'] = $imagePath;
 
         Website::create($validatedData);
         return redirect()->route('websites.index')->with('success', 'Nuova foto aggiunta con successo!');
